@@ -125,13 +125,14 @@ const uint8_t Bcmd[] = {       // Init commands for 7735B screens
         0x00, 0x7F},    //     XEND = 127
 
     Rcmd2green160x80[] = { // 7735R init, part 2 (mini 160x80)
-        2,                 //  2 commands in list:
+        3,                 //  3 commands in list:
         CASET, 4,          //  1: Column addr set, 4 args, no delay:
         0x00, 0x00,        //     XSTART = 0
         0x00, 0x4F,        //     XEND = 79
         RASET, 4,          //  2: Row addr set, 4 args, no delay:
         0x00, 0x00,        //     XSTART = 0
-        0x00, 0x9F},       //     XEND = 159
+        0x00, 0x9F,        //     XEND = 159
+        INVON, 0},         //  3: Invert display  
 
     Rcmd3[] = {                                                              // 7735R init, part 3 (red or green tab)
         4,                                                                   //  4 commands in list:
@@ -165,7 +166,7 @@ void lcd_st7735_rotate(spi_lcd *lcd, uint8_t m)
     switch (lcd->rotation)
     {
     case 0:
-        if ((lcd->tabcolor == INITR_BLACKTAB) || (lcd->tabcolor == INITR_MINI160x80))
+        if (lcd->tabcolor == INITR_BLACKTAB)
         {
             madctl = MADCTL_MX | MADCTL_MY | MADCTL_RGB;
         }
@@ -193,7 +194,7 @@ void lcd_st7735_rotate(spi_lcd *lcd, uint8_t m)
         lcd->_ystart = lcd->_rowstart;
         break;
     case 1:
-        if ((lcd->tabcolor == INITR_BLACKTAB) || (lcd->tabcolor == INITR_MINI160x80))
+        if (lcd->tabcolor == INITR_BLACKTAB)
         {
             madctl = MADCTL_MY | MADCTL_MV | MADCTL_RGB;
         }
@@ -221,7 +222,7 @@ void lcd_st7735_rotate(spi_lcd *lcd, uint8_t m)
         lcd->_xstart = lcd->_rowstart;
         break;
     case 2:
-        if ((lcd->tabcolor == INITR_BLACKTAB) || (lcd->tabcolor == INITR_MINI160x80))
+        if (lcd->tabcolor == INITR_BLACKTAB)
         {
             madctl = MADCTL_RGB;
         }
@@ -249,7 +250,7 @@ void lcd_st7735_rotate(spi_lcd *lcd, uint8_t m)
         lcd->_ystart = lcd->_rowstart;
         break;
     case 3:
-        if ((lcd->tabcolor == INITR_BLACKTAB) || (lcd->tabcolor == INITR_MINI160x80))
+        if (lcd->tabcolor == INITR_BLACKTAB)
         {
             madctl = MADCTL_MX | MADCTL_MV | MADCTL_RGB;
         }
@@ -314,8 +315,8 @@ void lcd_st7735_init(spi_lcd *lcd, uint8_t options)
         lcd->height = 80;
         lcd->width = 160;
         lcd_send_command_list(lcd, Rcmd2green160x80);
-        lcd->_colstart = 24;
-        lcd->_rowstart = 0;
+        lcd->_colstart = 26;
+        lcd->_rowstart = 1;
     }
     else
     {
