@@ -6,9 +6,9 @@
 #define TFTWIDTH 240  ///< ILI9341 max TFT width
 #define TFTHEIGHT 320 ///< ILI9341 max TFT height
 
-#define lcd_select(lcd) (*(((lcd)->spi_fun).set_cs))(lcd, 0)
-#define lcd_deselect(lcd) (*(((lcd)->spi_fun).set_cs))(lcd, 1)
 #define delay_ms(ms) (*(((lcd)->spi_fun).delay_ms))(ms)
+void lcd_select(spi_lcd *lcd);
+void lcd_deselect(spi_lcd *lcd);
 
 void lcd_send_command(spi_lcd *lcd, uint8_t cmd, uint8_t *data_ptr, uint16_t cnt);
 void lcd_send_command_list(spi_lcd *lcd, uint8_t *addr);

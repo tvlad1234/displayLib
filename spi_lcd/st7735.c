@@ -3,9 +3,9 @@
 
 #include "st7735.h"
 
-#define lcd_select(lcd) (*(((lcd)->spi_fun).set_cs))(lcd, 0)
-#define lcd_deselect(lcd) (*(((lcd)->spi_fun).set_cs))(lcd, 1)
 #define delay_ms(ms) (*(((lcd)->spi_fun).delay_ms))(ms)
+void lcd_select(spi_lcd *lcd);
+void lcd_deselect(spi_lcd *lcd);
 
 const uint8_t Bcmd[] = {       // Init commands for 7735B screens
     18,                        // 18 commands in list:

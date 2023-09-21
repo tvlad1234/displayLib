@@ -1,11 +1,9 @@
 #include "spi_lcd.h"
 #include "mipi_reg.h"
 
-#include "st7789.h"
-
-#define lcd_select(lcd) (*(((lcd)->spi_fun).set_cs))(lcd, 0)
-#define lcd_deselect(lcd) (*(((lcd)->spi_fun).set_cs))(lcd, 1)
 #define delay_ms(ms) (*(((lcd)->spi_fun).delay_ms))(ms)
+void lcd_select(spi_lcd *lcd);
+void lcd_deselect(spi_lcd *lcd);
 
 void lcd_reset(spi_lcd *lcd);
 void lcd_send_command_list(spi_lcd *lcd, uint8_t *addr);

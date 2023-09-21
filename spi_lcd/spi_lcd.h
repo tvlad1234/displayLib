@@ -20,11 +20,9 @@ struct spi_lcd_spi_f
 {
     void (*write_8b)(spi_lcd *, uint8_t *, uint32_t);
     void (*write_16b)(spi_lcd *, uint16_t *, uint32_t);
-    void (*set_dc)(spi_lcd *, uint8_t); // 1 for data, 0 for command
-    void (*set_cs)(spi_lcd *, uint8_t);
-    void (*set_rst)(spi_lcd *, uint8_t);
+    void (*set_gpio)(spi_lcd *, uint16_t, uint8_t);
+
     void (*delay_ms)(uint32_t);
-    void (*delay_us)(uint32_t);
 };
 
 struct spi_lcd
@@ -37,7 +35,7 @@ struct spi_lcd
     uint16_t window_width, window_height;
     uint16_t _colstart, _rowstart, _colstart2, _rowstart2;
     int16_t _xstart;
-    int16_t _ystart; 
+    int16_t _ystart;
 
     uint8_t tabcolor;
     void (*rotate_fun)(spi_lcd *, uint8_t);
