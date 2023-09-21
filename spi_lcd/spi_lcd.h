@@ -34,6 +34,7 @@ struct spi_lcd
     spi_lcd_spi_f spi_fun;
 
     uint16_t width, height, rotation;
+    uint16_t window_width, window_height;
     uint16_t _colstart, _rowstart, _colstart2, _rowstart2;
     int16_t _xstart;
     int16_t _ystart; 
