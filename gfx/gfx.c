@@ -1,6 +1,9 @@
 #include "gfx.h"
 #include "font.h"
-#include "string.h"
+
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
 
 #ifndef _swap_int16_t
 #define _swap_int16_t(a, b) \
@@ -131,6 +134,11 @@ void gfx_fill_rect(gfx_inst *gfx, int16_t x, int16_t y, int16_t w, int16_t h, ui
 		gfx_fill_rect_internal(gfx, x, y, w, h, color);
 }
 
+void gfx_fill(gfx_inst *gfx, uint16_t color)
+{
+	gfx_fill_rect(gfx, 0, 0, gfx->width, gfx->height, color);
+}
+
 void gfx_clear(gfx_inst *gfx)
 {
 	gfx_fill_rect(gfx, 0, 0, gfx->width, gfx->height, gfx->clear_color);
@@ -222,6 +230,15 @@ void gfx_print_string(gfx_inst *gfx, char s[])
 	uint8_t n = strlen(s);
 	for (int i = 0; i < n; i++)
 		gfx_write_char(gfx, s[i]);
+}
+
+void gfx_printf(gfx_inst *gfx, const char *format, ...)
+{
+	va_list args;
+    va_start(args, format);
+    vsnprintf(gfx->print_buf, GFX_PRINTBUF_SIZE, format, args);
+    gfx_print_string(gfx, gfx->print_buf);
+    va_end(args);
 }
 
 void gfx_draw_bmp_1bpp(gfx_inst *gfx, int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color)
